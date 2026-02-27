@@ -8,6 +8,7 @@ steps:
     commands:
       - deno install
       - deno task lint:fix || echo 'non-zero exit code'
+      - deno task ci:stylus-import
   - name: prepare and deploy
     image: alpine:latest
     depends_on: [patch]
@@ -18,7 +19,6 @@ steps:
         from_secret: EBIL_CLUB_HOST
     commands:
       - apk add --no-cache util-linux openssh rsync
-      - mkdir dist
       - cp -R lib styles/* dist/
       - |
         find dist \
