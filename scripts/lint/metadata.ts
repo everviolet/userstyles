@@ -152,7 +152,8 @@ export async function verifyMetadata(
 }
 
 function generateAssertions(userstyle: string, userstyles: Userstyles) {
-  const prefix = "https://codeberg.org/evergarden/userstyles";
+  const codeberg = "https://codeberg.org/evergarden/userstyles";
+  const website = "https://evergarden.moe/userstyles";
   const userstyleData = userstyles[userstyle];
 
   if (!userstyleData) {
@@ -173,7 +174,7 @@ function generateAssertions(userstyle: string, userstyles: Userstyles) {
       ].join("/")
     } Evergarden`,
     namespace: `codeberg.org/evergarden/userstyles/styles/${userstyle}`,
-    homepageURL: `${prefix}/tree/main/styles/${userstyle}`,
+    homepageURL: `${codeberg}/src/styles/${userstyle}`,
     description: `Cozy theme for ${
       formatListOfItems([
         userstyleData.name,
@@ -181,8 +182,8 @@ function generateAssertions(userstyle: string, userstyles: Userstyles) {
       ])
     }`,
     author: "Catppuccin",
-    updateURL: `${prefix}/raw/main/styles/${userstyle}/catppuccin.user.less`,
-    supportURL: `${prefix}/issues?q=is%3Aopen+is%3Aissue+label%3A${userstyle}`,
+    updateURL: `${website}/${userstyle}/evergarden.user.less`,
+    supportURL: `${codeberg}/issues?q=is%3Aopen+is%3Aissue+label%3A${userstyle}`,
     license: "MIT",
     preprocessor: "less",
   };

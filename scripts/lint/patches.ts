@@ -91,6 +91,6 @@ export const patches: Patch[] = [
   // == lib ==
   [
     /https:\/\/userstyles\.catppuccin\.com\/lib\/lib\.less/g,
-    "https://codeberg.org/evergarden/userstyles/raw/branch/evergarden/lib/lib.less",
+    "https://evergarden.moe/userstyles/lib/lib.less",
   ],
 ];
