@@ -1,21 +1,21 @@
 /* ==UserStyle==
-@name <port-name> Catppuccin
-@namespace github.com/catppuccin/userstyles/styles/<port-name>
-@homepageURL https://github.com/catppuccin/userstyles/tree/main/styles/<port-name>
+@name <port-name> Evergarden
+@namespace codeberg.org/evergarden/userstyles/styles/<port-name>
+@homepageURL https://codeberg.org/evergarden/userstyles/tree/main/styles/<port-name>
 @version 2000.01.01
-@updateURL https://github.com/catppuccin/userstyles/raw/main/styles/<port-name>/catppuccin.user.less
-@supportURL https://github.com/catppuccin/userstyles/issues?q=is%3Aopen+is%3Aissue+label%3A<port-name>
-@description Soothing pastel theme for <port-name>
+@updateURL https://codeberg.org/evergarden/userstyles/raw/main/styles/<port-name>/catppuccin.user.less
+@supportURL https://codeberg.org/evergarden/userstyles/issues?q=is%3Aopen+is%3Aissue+label%3A<port-name>
+@description Cozy theme for <port-name>
 @author Catppuccin
 @license MIT
 
 @preprocessor less
-@var select lightFlavor "Light Flavor" ["latte:Latte*", "frappe:Frappé", "macchiato:Macchiato", "mocha:Mocha"]
-@var select darkFlavor "Dark Flavor" ["latte:Latte", "frappe:Frappé", "macchiato:Macchiato", "mocha:Mocha*"]
-@var select accentColor "Accent" ["rosewater:Rosewater", "flamingo:Flamingo", "pink:Pink", "mauve:Mauve*", "red:Red", "maroon:Maroon", "peach:Peach", "yellow:Yellow", "green:Green", "teal:Teal", "blue:Blue", "sapphire:Sapphire", "sky:Sky", "lavender:Lavender", "subtext0:Gray"]
+@var select lightVariant "Light Variant" ["summer:Summer*", "spring:Spring", "fall:Fall", "winter:Winter"]
+@var select darkVariant "Dark Variant" ["summer:Summer", "spring:Spring", "fall:Fall", "winter:Winter*"]
+@var select accentColor "Accent" ["red:Red", "orange:Orange", "yellow:Yellow", "lime:Lime", "green:Green*", "aqua:Aqua", "skye:Skye", "snow:Snow", "blue:Blue", "purple:Purple", "pink:Pink", "cherry:Cherry", "subtext0:Gray"]
 ==/UserStyle== */
 
-@import "https://userstyles.catppuccin.com/lib/lib.less";
+@import "https://codeberg.org/evergarden/userstyles/raw/branch/evergarden/lib/lib.less";
 
 @-moz-document domain("<website-domain>") {
   /* This section applies the light/dark themes automatically based on the user's system theme.
@@ -24,10 +24,10 @@
   */
   :root {
     @media (prefers-color-scheme: light) {
-      #catppuccin(@lightFlavor);
+      #evergarden(@lightVariant);
     }
     @media (prefers-color-scheme: dark) {
-      #catppuccin(@darkFlavor);
+      #evergarden(@darkVariant);
     }
   }
 
@@ -40,13 +40,13 @@
      For an actual example of this, see https://github.com/catppuccin/userstyles/blob/39288b593278e5efa48007d5fc001292cf910672/styles/youtube/catppuccin.user.css#L21-L30.
   */
   :root[data-theme="dark"] {
-    #catppuccin(@darkFlavor);
+    #evergarden(@darkVariant);
   }
   :root[data-theme="light"] {
-    #catppuccin(@lightFlavor);
+    #evergarden(@lightVariant);
   }
 
-  #catppuccin(@flavor) {
+  #evergarden(@flavor) {
     #lib.palette();
     #lib.defaults();
 
@@ -55,12 +55,12 @@
 
     /* If you need to specify an overwrite specific to a flavor
      *  (e.g. only when the flavor is set to latte), you can use a `when` guard clause. */
-    & when (@flavor = latte) {
+    & when (@flavor = summer) {
       /* ... */
     }
     /* You can also negate the statement above by using
      *  a `when not` guard clause. */
-    & when not(@flavor = latte) {
+    & when not(@flavor = summer) {
       /* ... */
     }
   }

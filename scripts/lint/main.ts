@@ -10,6 +10,7 @@ import { checkForMissingFiles } from "@/lint/file-checker.ts";
 import { log } from "@/logger.ts";
 import { verifyMetadata } from "@/lint/metadata.ts";
 import { runStylelint } from "@/lint/stylelint.ts";
+import { applyPatches, patches } from "@/lint/patches.ts";
 import { getUserstylesData, getUserstylesFiles } from "@/utils.ts";
 import stylelintConfig from "../../.stylelintrc.js";
 
@@ -30,6 +31,17 @@ for (const style of stylesheets) {
   const file = path.relative(REPO_ROOT, style);
 
   let content = await Deno.readTextFile(style);
+
+  if (args.fix) {
+    console.log(
+      `\nApplying patches for ${file}`,
+    );
+    const { patched } = applyPatches(content, {
+      patches,
+      file,
+    });
+    content = patched;
+  }
 
   // Verify the UserCSS metadata.
   const { globalVars, isLess, fixed } = await verifyMetadata(
