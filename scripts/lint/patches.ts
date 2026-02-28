@@ -15,7 +15,7 @@ function logPatch(repl: string | PatchReplacer) {
     console.log(`/${color.cyan(substring)}/`);
 
     if (typeof repl == "function") {
-      repl = repl(substring, args);
+      repl = repl(substring, ...args);
     }
     return repl;
   };
@@ -53,6 +53,24 @@ export function applyPatches(
   return { patched: current };
 }
 
+function makeVarPatch(from: string, to: string): Patch {
+  return [
+    new RegExp(`@(?<brl>{?)(?<color>${from})\\b(?<brr>}?)`, "g"),
+    (
+      _sub: string,
+      _brl: string,
+      _color: string,
+      _brr: string,
+      _offset: number,
+      _str: string,
+      groups: { brl?: string; color: string; brr?: string },
+    ) => {
+      const { brl, brr } = groups;
+      return `@${brl}${to}${brr}`;
+    },
+  ];
+}
+
 export const patches: Patch[] = [
   // == keywords ==
   [/lightFlavor/g, "lightVariant"],
@@ -70,23 +88,23 @@ export const patches: Patch[] = [
   [/mocha/g, "winter"],
   [/Mocha/g, "Winter"],
 
-  [/@flavor\b/g, "@variant"],
+  makeVarPatch("flavor", "variant"),
 
   // == colors ==
-  [/@rosewater\b/g, "@cherry"],
-  [/@flamingo\b/g, "@cherry"],
+  makeVarPatch("rosewater", "cherry"),
+  makeVarPatch("flamingo", "cherry"),
   // pink
-  [/@mauve\b/g, "@skye"],
+  makeVarPatch("mauve", "skye"),
   // red
-  [/@maroon\b/g, "@red"],
-  [/@peach\b/g, "@orange"],
+  makeVarPatch("maroon", "red"),
+  makeVarPatch("peach", "orange"),
   // yellow
   // green
-  [/@teal\b/g, "@aqua"],
-  [/@sky\b/g, "@skye"],
-  [/@sapphire\b/g, "@snow"],
+  makeVarPatch("teal", "aqua"),
+  makeVarPatch("sky", "skye"),
+  makeVarPatch("sapphire", "snow"),
   // blue
-  [/@lavender\b/g, "@skye"],
+  makeVarPatch("lavender", "skye"),
 
   // == lib ==
   [
