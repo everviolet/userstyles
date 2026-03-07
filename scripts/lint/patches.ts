@@ -111,4 +111,10 @@ export const patches: Patch[] = [
     /https:\/\/userstyles\.catppuccin\.com\/lib\/lib\.less/g,
     "https://evergarden.moe/userstyles/lib/lib.less",
   ],
+
+  // == port-specific ==
+  [
+    /https:\/\/catppuccin\.github\.io\/gitea\/theme-catppuccin/g,
+    "https://evergarden.moe/gitea/theme-evergarden",
+  ],
 ];
