@@ -27,5 +27,5 @@ steps:
       branch: catppuccin
       pr_title: "merge with catppuccin"
       pr_body: "[beep boop](${CI_PIPELINE_URL}) :3 **USE MERGE COMMIT !!!**"
-      skip_on_missing_branch: true
+      skip_on_empty_branch: true
       delete_branch_after_merge: true
