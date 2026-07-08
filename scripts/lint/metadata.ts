@@ -90,7 +90,7 @@ export async function verifyMetadata(
   ))
     .split("\n");
 
-  for (const variable of ["darkFlavor", "lightFlavor", "accentColor"]) {
+  for (const variable of ["darkVariant", "lightVariant", "accentColor"]) {
     const declaration = `@var select ${variable}`;
 
     const expected = template.find((line) => line.includes(declaration))!;
@@ -134,9 +134,9 @@ export async function verifyMetadata(
   }
 
   // Parse the UserCSS variables to LESS global variables, e.g.
-  // `@var select lightFlavor "Light Flavor" ["latte:Latte*", "frappe:Frappé", "macchiato:Macchiato", "mocha:Mocha"]`
+  // `@var select lightVariant "Light Variant" ["summer:Summer*", "spring:Spring", "fall:Fall", "winter:Winter"]`
   // gets parsed as
-  // `lightFlavor: "latte"`.
+  // `lightVariant: "summer"`.
   const globalVars = Object.entries(metadata.vars)
     .reduce((acc, [k, v]) => {
       return { ...acc, [k]: v.default };
@@ -150,7 +150,8 @@ export async function verifyMetadata(
 }
 
 function generateAssertions(userstyle: string, userstyles: Userstyles) {
-  const prefix = "https://github.com/catppuccin/userstyles";
+  const codeberg = "https://codeberg.org/evergarden/userstyles";
+  const website = "https://evergarden.moe/userstyles";
   const userstyleData = userstyles[userstyle];
 
   if (!userstyleData) {
@@ -169,18 +170,18 @@ function generateAssertions(userstyle: string, userstyles: Userstyles) {
         userstyleData.name,
         ...Object.values(userstyleData.supports ?? {}).map(({ name }) => name),
       ].join("/")
-    } Catppuccin`,
-    namespace: `github.com/catppuccin/userstyles/styles/${userstyle}`,
-    homepageURL: `${prefix}/tree/main/styles/${userstyle}`,
-    description: `Soothing pastel theme for ${
+    } Evergarden`,
+    namespace: `codeberg.org/evergarden/userstyles/styles/${userstyle}`,
+    homepageURL: `${codeberg}/src/styles/${userstyle}`,
+    description: `Cozy theme for ${
       formatListOfItems([
         userstyleData.name,
         ...Object.values(userstyleData.supports ?? {}).map(({ name }) => name),
       ])
     }`,
     author: "Catppuccin",
-    updateURL: `${prefix}/raw/main/styles/${userstyle}/catppuccin.user.less`,
-    supportURL: `${prefix}/issues?q=is%3Aopen+is%3Aissue+label%3A${userstyle}`,
+    updateURL: `${website}/${userstyle}/evergarden.user.less`,
+    supportURL: `${codeberg}/issues?q=is%3Aopen+is%3Aissue+label%3A${userstyle}`,
     license: "MIT",
     preprocessor: "less",
   };

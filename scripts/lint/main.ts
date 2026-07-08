@@ -10,6 +10,7 @@ import { checkForMissingFiles } from "@/lint/file-checker.ts";
 import { log } from "@/logger.ts";
 import { verifyMetadata } from "@/lint/metadata.ts";
 import { runStylelint } from "@/lint/stylelint.ts";
+import { applyPatches, patches } from "@/lint/patches.ts";
 import { getUserstylesData, getUserstylesFiles } from "@/utils.ts";
 import stylelintConfig from "../../.stylelintrc.js";
 
@@ -24,18 +25,22 @@ const stylesheets = userstyle
 const { userstyles } = getUserstylesData();
 
 let didLintFail = false;
-const patches = [
-  ["https://userstyles.catppuccin.com/lib", path.join(REPO_ROOT, "lib")],
-];
 
 for (const style of stylesheets) {
   const dir = path.basename(path.dirname(style));
   const file = path.relative(REPO_ROOT, style);
 
   let content = await Deno.readTextFile(style);
-  // Apply patches.
-  for (const [search, replace] of patches) {
-    content = content.replaceAll(search, replace);
+
+  if (args.fix) {
+    console.log(
+      `\nApplying patches for ${file}`,
+    );
+    const { patched } = applyPatches(content, {
+      patches,
+      file,
+    });
+    content = patched;
   }
 
   // Verify the UserCSS metadata.
@@ -62,11 +67,6 @@ for (const style of stylesheets) {
       );
     },
   );
-
-  // Reverse apply patches.
-  for (const [search, replace] of patches) {
-    content = content.replaceAll(replace, search);
-  }
 
   // Lint with Stylelint.
   const results = await runStylelint(style, content, args.fix, stylelintConfig)
